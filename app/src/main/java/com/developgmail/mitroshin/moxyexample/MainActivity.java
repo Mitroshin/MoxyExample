@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+// Так как Activity наследует MvpAppCompatActivity, в момент вызова onCreate() будут
+// проинициализированы все поля, отмеченные аннотацией @InjectPresenter
 public class MainActivity extends MvpAppCompatActivity implements HelloMoxyView {
     @InjectPresenter
     HelloMoxyPresenter mHelloMoxyPresenter;

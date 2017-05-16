@@ -12,16 +12,29 @@ import java.util.concurrent.TimeUnit;
 @InjectViewState
 public class HelloMoxyPresenter extends MvpPresenter<HelloMoxyView> {
     public HelloMoxyPresenter() {
+        AsyncTask<Void, Integer, Void> asyncTask = new AsyncTask<Void, Integer, Void>() {
+            @Override
+            protected void onPreExecute() {
+                getViewState().showTimer();
+            }
 
-        AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                sleepSecond();
+                for (int i = 5; i > 0; i--) {
+                    publishProgress(i);
+                    sleepSecond();
+                }
                 return null;
             }
 
             @Override
+            protected void onProgressUpdate(Integer... values) {
+                getViewState().setTimer(values[0]);
+            }
+
+            @Override
             protected void onPostExecute(Void aVoid) {
+                getViewState().hideTimer();
                 getViewState().showMessage(R.string.hello_moxy);
             }
 
