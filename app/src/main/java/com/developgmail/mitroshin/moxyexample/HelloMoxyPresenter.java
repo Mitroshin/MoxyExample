@@ -20,7 +20,7 @@ public class HelloMoxyPresenter extends MvpPresenter<HelloMoxyView> {
 
             @Override
             protected Void doInBackground(Void... params) {
-                for (int i = 5; i > 0; i--) {
+                for (int i = 10; i > 0; i--) {
                     publishProgress(i);
                     sleepSecond();
                 }

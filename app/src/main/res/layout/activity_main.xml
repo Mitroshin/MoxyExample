@@ -8,4 +8,10 @@
     android:layout_height="match_parent"
     tools:context="com.developgmail.mitroshin.moxyexample.MainActivity">
 
+    <TextView
+        android:textSize="40dp"
+        android:gravity="center"
+        android:id="@+id/timer_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>
