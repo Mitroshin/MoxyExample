@@ -1,9 +1,8 @@
 package com.developgmail.mitroshin.moxyexample;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -15,6 +14,7 @@ public class MainActivity extends MvpAppCompatActivity implements HelloMoxyView 
     @InjectPresenter
     HelloMoxyPresenter mHelloMoxyPresenter;
 
+    private AlertDialog mMessageDialog;
     private TextView mTimerTextView;
 
     @Override
@@ -41,10 +41,19 @@ public class MainActivity extends MvpAppCompatActivity implements HelloMoxyView 
 
     @Override
     public void showMessage(int message) {
-        TextView messageTextView = new TextView(this);
-        messageTextView.setText(message);
-        messageTextView.setTextSize(40);
-        messageTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-        ((ViewGroup) findViewById(R.id.activity_main)).addView(messageTextView);
+        mMessageDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.app_name)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+//                Все мобытия пользовательского интерфейса нужно передавать в Presenter
+                .setOnDismissListener(dialogInterface -> mHelloMoxyPresenter.onDismissMessage())
+                .show();
+    }
+
+    @Override
+    public void hideMessage() {
+        if (mMessageDialog != null) {
+            mMessageDialog.dismiss();
+        }
     }
 }

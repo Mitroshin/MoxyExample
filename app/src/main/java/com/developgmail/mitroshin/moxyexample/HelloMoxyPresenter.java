@@ -48,4 +48,8 @@ public class HelloMoxyPresenter extends MvpPresenter<HelloMoxyView> {
         };
         asyncTask.execute();
     }
+
+    public void onDismissMessage() {
+        getViewState().hideMessage();
+    }
 }
