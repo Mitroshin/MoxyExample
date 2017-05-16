@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MoxyExample</string>
+    <string name="hello_moxy">Hello Moxy</string>
 </resources>
