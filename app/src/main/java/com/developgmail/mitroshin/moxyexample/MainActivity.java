@@ -2,7 +2,9 @@ package com.developgmail.mitroshin.moxyexample;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -16,6 +18,7 @@ public class MainActivity extends MvpAppCompatActivity implements HelloMoxyView 
 
     private AlertDialog mMessageDialog;
     private TextView mTimerTextView;
+    private View mMessageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +44,28 @@ public class MainActivity extends MvpAppCompatActivity implements HelloMoxyView 
 
     @Override
     public void showMessage(int message) {
-        mMessageDialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.app_name)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, null)
-//                Все мобытия пользовательского интерфейса нужно передавать в Presenter
-                .setOnDismissListener(dialogInterface -> mHelloMoxyPresenter.onDismissMessage())
-                .show();
+        ViewGroup rootView = (ViewGroup) findViewById(R.id.activity_main);
+        mMessageView = LayoutInflater.from(this).inflate(R.layout.item_message, rootView, false);
+        rootView.addView(mMessageView);
+        ((TextView) mMessageView.findViewById(R.id.item_message_text_view)).setText(message);
+        mMessageView.findViewById(R.id.item_message_close_button)
+                .setOnClickListener(v -> mHelloMoxyPresenter.onDismissMessage());
+
+//        mMessageDialog = new AlertDialog.Builder(this)
+//                .setTitle(R.string.app_name)
+//                .setMessage(message)
+//                .setPositiveButton(android.R.string.ok, null)
+////                Все мобытия пользовательского интерфейса нужно передавать в Presenter
+//                .setOnDismissListener(dialogInterface -> mHelloMoxyPresenter.onDismissMessage())
+//                .show();
     }
 
     @Override
     public void hideMessage() {
-        if (mMessageDialog != null) {
-            mMessageDialog.dismiss();
-        }
+        ViewGroup rootView = (ViewGroup) findViewById(R.id.activity_main);
+        rootView.removeView(mMessageView);
+//        if (mMessageDialog != null) {
+//            mMessageDialog.dismiss();
+//        }
     }
 }
