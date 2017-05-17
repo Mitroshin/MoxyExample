@@ -50,22 +50,11 @@ public class MainActivity extends MvpAppCompatActivity implements HelloMoxyView 
         ((TextView) mMessageView.findViewById(R.id.item_message_text_view)).setText(message);
         mMessageView.findViewById(R.id.item_message_close_button)
                 .setOnClickListener(v -> mHelloMoxyPresenter.onDismissMessage());
-
-//        mMessageDialog = new AlertDialog.Builder(this)
-//                .setTitle(R.string.app_name)
-//                .setMessage(message)
-//                .setPositiveButton(android.R.string.ok, null)
-////                Все мобытия пользовательского интерфейса нужно передавать в Presenter
-//                .setOnDismissListener(dialogInterface -> mHelloMoxyPresenter.onDismissMessage())
-//                .show();
     }
 
     @Override
     public void hideMessage() {
         ViewGroup rootView = (ViewGroup) findViewById(R.id.activity_main);
         rootView.removeView(mMessageView);
-//        if (mMessageDialog != null) {
-//            mMessageDialog.dismiss();
-//        }
     }
 }
