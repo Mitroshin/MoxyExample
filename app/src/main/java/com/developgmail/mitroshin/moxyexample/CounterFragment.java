@@ -9,9 +9,10 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.PresenterType;
 
 public class CounterFragment extends MvpAppCompatFragment implements CounterView {
-    @InjectPresenter
+    @InjectPresenter(type = PresenterType.GLOBAL, tag = "counterPresenter")
     CounterPresenter mCounterPresenter;
     private TextView mCounterTextView;
 
