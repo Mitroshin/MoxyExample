@@ -1,60 +1,33 @@
 package com.developgmail.mitroshin.moxyexample;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
 
 // Так как Activity наследует MvpAppCompatActivity, в момент вызова onCreate() будут
 // проинициализированы все поля, отмеченные аннотацией @InjectPresenter
-public class MainActivity extends MvpAppCompatActivity implements HelloMoxyView {
-    @InjectPresenter
-    HelloMoxyPresenter mHelloMoxyPresenter;
-
-    private AlertDialog mMessageDialog;
-    private TextView mTimerTextView;
-    private View mMessageView;
-
+public class MainActivity extends MvpAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTimerTextView = (TextView) findViewById(R.id.timer_text_view);
+
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction
+                    .add(R.id.frame_1, getFragment(0xFFFF80AB))
+                    .add(R.id.frame_2, getFragment(0xFFCCFF90))
+                    .commit();
+        }
     }
 
-    @Override
-    public void showTimer() {
-        mTimerTextView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideTimer() {
-        mTimerTextView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void setTimer(int seconds) {
-        mTimerTextView.setText(getString(R.string.timer, seconds));
-    }
-
-    @Override
-    public void showMessage(int message) {
-        ViewGroup rootView = (ViewGroup) findViewById(R.id.activity_main);
-        mMessageView = LayoutInflater.from(this).inflate(R.layout.item_message, rootView, false);
-        rootView.addView(mMessageView);
-        ((TextView) mMessageView.findViewById(R.id.item_message_text_view)).setText(message);
-        mMessageView.findViewById(R.id.item_message_close_button)
-                .setOnClickListener(v -> mHelloMoxyPresenter.onDismissMessage());
-    }
-
-    @Override
-    public void hideMessage() {
-        ViewGroup rootView = (ViewGroup) findViewById(R.id.activity_main);
-        rootView.removeView(mMessageView);
+    private Fragment getFragment(int color) {
+        CounterFragment fragment =  new CounterFragment();
+        Bundle args = new Bundle();
+        args.putInt("argColor", color);
+        fragment.setArguments(args);
+        return fragment;
     }
 }
